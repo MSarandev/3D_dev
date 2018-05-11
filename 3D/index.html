@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Working</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<!-- External JS -->
+<script src="src/three.js"></script>
+<!-- Custom JS -->
+<script>
+    // creating the scene
+    var scene = new THREE.Scene();
+
+    // create the camera
+    var camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth/window.innerHeight,
+        0.1,
+        1000 );
+
+    // create the renderer
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+    // create an elementary object
+    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    var cube = new THREE.Mesh( geometry, material );
+
+    // add the object to the scene
+    scene.add( cube );
+
+    // adjust the camera position
+    camera.position.z = 5;
+
+    // create an animation function
+    var animate = function () {
+        // for each animation frame
+        requestAnimationFrame( animate );
+
+        // elementary animation
+        cube.rotation.x += 0.01;
+
+        // render the scene and the camera
+        renderer.render(scene, camera);
+    };
+
+
+    // execute the function
+    animate();
+</script>
+</body>
+</html>
