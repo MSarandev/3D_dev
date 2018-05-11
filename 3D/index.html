@@ -8,6 +8,9 @@
 <body>
 <!-- External JS -->
 <script src="src/three.js"></script>
+<script src="src/controls/OrbitControls.js"></script>
+<script src="src/lights/Light.js"></script>
+<script src="src/lights/AmbientLight.js"></script>
 <!-- Custom JS -->
 <script>
     // creating the scene
@@ -20,6 +23,13 @@
         0.1,
         1000 );
 
+    // add camera controls
+    var controls = new THREE.OrbitControls( camera );
+
+    //controls.update() must be called after any manual changes to the camera's transform
+    camera.position.set(0,2,1);
+    controls.update();
+
     // create the renderer
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -27,7 +37,7 @@
 
     // create an elementary object
     var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    var material = new THREE.MeshBasicMaterial( { color: '#fff' } );
     var cube = new THREE.Mesh( geometry, material );
 
     // add the object to the scene
@@ -35,6 +45,13 @@
 
     // adjust the camera position
     camera.position.z = 5;
+
+    // add a light
+    var light = new THREE.AmbientLight( "#f90909" );
+
+    light.position.z = 2;
+
+    scene.add( light );
 
     // create an animation function
     var animate = function () {
@@ -44,10 +61,12 @@
         // elementary animation
         cube.rotation.x += 0.01;
 
+        // update controls - MUST
+        controls.update();
+
         // render the scene and the camera
         renderer.render(scene, camera);
     };
-
 
     // execute the function
     animate();
